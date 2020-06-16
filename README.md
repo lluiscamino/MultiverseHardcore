@@ -83,3 +83,7 @@ Use this command to get a list of all Hardcore worlds in your server:
 ```
 /mvhc version
 ```
+
+## FAQ
+1. __Players can still play after they have been killed on a Hardcore world.__
+Increase the `enter_world_ticks` value on the `config.yml` file.
