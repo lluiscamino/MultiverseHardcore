@@ -105,22 +105,24 @@ public class MultiverseHardcore extends JavaPlugin {
     public World getNormalWorld(World world) {
         if (world == null) return null;
         if (world.getEnvironment() == World.Environment.NORMAL) return world;
-        HardcoreWorldsList.HardcoreWorldInfo worldInfo = hardcoreWorldsList.getHardcoreWorldInfo(world);
-        if (world.getEnvironment() == World.Environment.NETHER && worldInfo.includeNether) {
+
+        if (world.getEnvironment() == World.Environment.NETHER) {
             String worldName = world.getName();
             if (worldName.endsWith("_nether")) {
                 worldName = worldName.substring(0, worldName.length() - "_nether".length());
                 World normalWorld = getServer().getWorld(worldName);
-                return normalWorld == null ? world : normalWorld;
+                HardcoreWorldsList.HardcoreWorldInfo worldInfo = hardcoreWorldsList.getHardcoreWorldInfo(normalWorld);
+                return normalWorld == null || !worldInfo.includeNether ? world : normalWorld;
             }
             return world;
         }
-        if (world.getEnvironment() == World.Environment.THE_END && worldInfo.includeEnd) {
+        if (world.getEnvironment() == World.Environment.THE_END) {
             String worldName = world.getName();
             if (worldName.endsWith("_the_end")) {
                 worldName = worldName.substring(0, worldName.length() - "_the_end".length());
                 World normalWorld = getServer().getWorld(worldName);
-                return normalWorld == null ? world : normalWorld;
+                HardcoreWorldsList.HardcoreWorldInfo worldInfo = hardcoreWorldsList.getHardcoreWorldInfo(normalWorld);
+                return normalWorld == null || !worldInfo.includeNether ? world : normalWorld;
             }
             return world;
         }

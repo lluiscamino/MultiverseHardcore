@@ -96,6 +96,7 @@ public class PlayersList extends life.lluis.multiversehardcore.files.List {
 
     public DeathBanInfo addDeathBan(Player player, World world, String message) {
         world = plugin.getNormalWorld(world);
+        if (world == null) return null;
         if (!validDeathBan(player, world)) return null;
         ArrayList<String> pl = new ArrayList<>();
         int index = getPlayer(player, world, pl);
