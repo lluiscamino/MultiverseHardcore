@@ -25,6 +25,8 @@ public class MultiverseHardcore extends JavaPlugin {
     private PlayersList playersList;
     private HardcoreWorldsList hardcoreWorldsList;
 
+    private int cleanWorldsTicks, enterWorldTicks;
+
     public static MultiverseHardcore getInstance() {
         return instance;
     }
@@ -43,11 +45,14 @@ public class MultiverseHardcore extends JavaPlugin {
         getCommand("mvhc").setExecutor(new MainCommand());
         getCommand("mvhchelp").setExecutor(new HelpCommand());
 
+        cleanWorldsTicks = getConfig().getInt("clean_worlds_ticks");
+        enterWorldTicks = getConfig().getInt("enter_world_ticks");
+
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             public void run() {
                 hardcoreWorldsList.cleanWorlds();
             }
-        }, 1);
+        }, cleanWorldsTicks);
     }
 
     public boolean spawnPlayer(Player player) {
@@ -158,7 +163,7 @@ public class MultiverseHardcore extends JavaPlugin {
                         }
                     }
                 }
-            }, 2);
+            }, enterWorldTicks);
         } else {
             player.sendMessage(getPrefix() + "You are entering a HARDCORE world, be careful!");
         }
