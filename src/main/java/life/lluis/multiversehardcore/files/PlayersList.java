@@ -1,7 +1,11 @@
 package life.lluis.multiversehardcore.files;
 
+import life.lluis.multiversehardcore.exceptions.PlayerNotParticipatedException;
+import life.lluis.multiversehardcore.exceptions.PlayerParticipationAlreadyExistsException;
+import life.lluis.multiversehardcore.models.DeathBan;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,218 +14,120 @@ import java.util.List;
 
 public class PlayersList extends life.lluis.multiversehardcore.files.List {
 
+    public static final PlayersList instance = new PlayersList();
     private static final String FILE_NAME = "players.yml";
+
+    private static final int DEATH_BANS_COUNT_INDEX = 3;
+    private static final int FIRST_DEATH_BAN_INDEX = 4;
+
+    private static final int DEATH_BAN_LINES_LENGTH = 3;
 
     public PlayersList() {
         super(FILE_NAME);
     }
 
-    private void update(World world, ArrayList<ArrayList<String>> newList) {
-        listFile.set(world.getName(), newList);
+    public DeathBan[] getPlayerDeathBans(@NotNull Player player, @NotNull World world)
+            throws PlayerNotParticipatedException {
+        List<String> participation = getPlayerParticipation(player, world);
+        int numDeathBans = Integer.parseInt(participation.get(DEATH_BANS_COUNT_INDEX));
+        int lastIndex = FIRST_DEATH_BAN_INDEX + numDeathBans * DEATH_BAN_LINES_LENGTH;
+        DeathBan[] deathBans = new DeathBan[numDeathBans];
+        for (int j = 0, i = FIRST_DEATH_BAN_INDEX; i < lastIndex; j++, i += DEATH_BAN_LINES_LENGTH) {
+            String message = participation.get(i);
+            Date startDate = new Date(Long.parseLong(participation.get(i + 1)));
+            Date endDate = new Date(Long.parseLong(participation.get(i + 2)));
+            deathBans[j] = new DeathBan(player, world, message, startDate, endDate);
+        }
+        return deathBans;
+    }
+
+    public Date getPlayerJoinDate(@NotNull Player player, @NotNull World world) throws PlayerNotParticipatedException {
+        List<String> participation = getPlayerParticipation(player, world);
+        return new Date(Long.parseLong(participation.get(2)));
+    }
+
+    public void addPlayerParticipation(@NotNull Player player, @NotNull World world, @NotNull Date joinDate)
+            throws PlayerParticipationAlreadyExistsException {
+        if (playerParticipationExists(player, world))
+            throw new PlayerParticipationAlreadyExistsException("Player already exists in world");
+        List<List<String>> participations = getPlayerParticipations(world);
+        List<String> pl = new ArrayList<>(Arrays.asList(player.getUniqueId().toString(), player.getName(),
+                Long.toString(joinDate.getTime()), "0"));
+        participations.add(pl);
+        update(world, participations);
+    }
+
+    public void addDeathBan(@NotNull Player player, @NotNull World world, @NotNull Date startDate,
+                            @NotNull Date endDate, @NotNull String message) throws PlayerNotParticipatedException {
+        List<String> participation = getPlayerParticipation(player, world);
+        int numDeathBans = Integer.parseInt(participation.get(DEATH_BANS_COUNT_INDEX));
+        participation.set(DEATH_BANS_COUNT_INDEX, Integer.toString(numDeathBans + 1));
+        participation.add(message);
+        participation.add(Long.toString(startDate.getTime()));
+        participation.add(Long.toString(endDate.getTime()));
+        updatePlayerParticipation(player, world, participation);
+    }
+
+    // numDeathBan: 0-base index
+    public void deleteDeathBan(@NotNull Player player, @NotNull World world, int numDeathBan) throws PlayerNotParticipatedException {
+        List<String> participation = getPlayerParticipation(player, world);
+        int numDeathBans = Integer.parseInt(participation.get(DEATH_BANS_COUNT_INDEX));
+        int startingIndex = FIRST_DEATH_BAN_INDEX + numDeathBan * DEATH_BAN_LINES_LENGTH;
+        participation.set(DEATH_BANS_COUNT_INDEX, Integer.toString(numDeathBans - 1));
+        for (int i = 0; i < 3; i++) {
+            participation.remove(startingIndex);
+        }
+        updatePlayerParticipation(player, world, participation);
+    }
+
+    public void deleteWorldDeathBans(@NotNull String worldName) {
+        listFile.set(worldName, null);
         save();
     }
 
-    private void updatePlayer(World world, ArrayList<String> player, int index) {
-        ArrayList<ArrayList<String>> players = players(world);
-        if (index < 0 || index >= players.size()) return;
-        players.set(index, player);
+    private void update(@NotNull World world, @NotNull List<List<String>> participations) {
+        listFile.set(world.getName(), participations);
+        save();
+    }
+
+    private void updatePlayerParticipation(@NotNull Player player, @NotNull World world,
+                                           @NotNull List<String> participation) throws PlayerNotParticipatedException {
+        List<List<String>> players = getPlayerParticipations(world);
+        int index = getPlayerParticipationIndex(player, world);
+        players.set(index, participation);
         update(world, players);
     }
 
-    private ArrayList<ArrayList<String>> players(World world) {
-        ArrayList<ArrayList<String>> players = (ArrayList<ArrayList<String>>) listFile.getList(world.getName());
-        if (players == null) players = new ArrayList<>();
-        return players;
+    private List<List<String>> getPlayerParticipations(@NotNull World world) {
+        List<List<String>> participations = (List<List<String>>) listFile.getList(world.getName());
+        if (participations == null) participations = new ArrayList<>();
+        return participations;
     }
 
-    private boolean playerExists(Player player, World world) {
-        ArrayList<ArrayList<String>> players = players(world);
-        String playerUID = player.getUniqueId().toString();
-        for (List<String> pl : players) {
-            if (pl.get(0).equals(playerUID)) return true;
+    private List<String> getPlayerParticipation(@NotNull Player player, @NotNull World world)
+            throws PlayerNotParticipatedException {
+        return getPlayerParticipations(world).get(getPlayerParticipationIndex(player, world));
+    }
+
+    private boolean playerParticipationExists(@NotNull Player player, @NotNull World world) {
+        try {
+            getPlayerParticipationIndex(player, world);
+            return true;
+        } catch (PlayerNotParticipatedException e) {
+            return false;
         }
-        return false;
     }
 
-    private int getPlayer(Player player, World world, ArrayList<String> playerInfo) {
-        ArrayList<ArrayList<String>> players = players(world);
+    private int getPlayerParticipationIndex(@NotNull Player player, @NotNull World world)
+            throws PlayerNotParticipatedException {
+        List<List<String>> players = getPlayerParticipations(world);
         String playerUID = player.getUniqueId().toString();
         int index = 0;
-        for (ArrayList<String> pl : players) {
-            if (pl.get(0).equals(playerUID)) {
-                playerInfo.addAll(pl);
-                return index;
-            }
+        for (List<String> pl : players) {
+            if (pl.get(0).equals(playerUID)) return index;
             index++;
         }
-        return -1;
-    }
-
-    private boolean validDeathBan(Player player, World world) {
-        HardcoreWorldsList worlds = plugin.getHardcoreWorldsList();
-        HardcoreWorldsList.HardcoreWorldInfo worldInfo = worlds.getHardcoreWorldInfo(world);
-        return worlds.isHardcore(world) && (!player.isOp() || worldInfo.banOps);
-    }
-
-    public PlayerInfo getPlayerInfo(Player player, World world) {
-        world = plugin.getNormalWorld(world);
-        ArrayList<String> playerInfo = new ArrayList<>();
-        int index = getPlayer(player, world, playerInfo);
-        if (index == -1) return null;
-        int numDeaths = Integer.parseInt(playerInfo.get(3));
-        DeathBanInfo[] deaths = new DeathBanInfo[numDeaths];
-        for (int j = 0, i = 4; i < 4 + numDeaths * 3; j++, i += 3) {
-            Date startDate = new Date(Long.parseLong(playerInfo.get(i + 1)));
-            Date endDate = new Date(Long.parseLong(playerInfo.get(i + 2)));
-            deaths[j] = new DeathBanInfo(player, world, playerInfo.get(i), startDate, endDate);
-        }
-        Date joinDate = new Date(Long.parseLong(playerInfo.get(2)));
-        return new PlayerInfo(player, world, joinDate, deaths);
-    }
-
-    public void createPlayer(Player player, World world) {
-        world = plugin.getNormalWorld(world);
-        if (playerExists(player, world)) return;
-        ArrayList<ArrayList<String>> players = players(world);
-        ArrayList<String> pl = new ArrayList<>(Arrays.asList(player.getUniqueId().toString(), player.getName(),
-                Long.toString(new Date().getTime()), "0"));
-        players.add(pl);
-        update(world, players);
-    }
-
-    public void deleteWorld(String path) {
-        listFile.set(path, null);
-        save();
-    }
-
-    public DeathBanInfo addDeathBan(Player player, World world, String message) {
-        world = plugin.getNormalWorld(world);
-        if (world == null) return null;
-        if (!validDeathBan(player, world)) return null;
-        ArrayList<String> pl = new ArrayList<>();
-        int index = getPlayer(player, world, pl);
-        if (index == -1) return null;
-        long startDate = new Date().getTime();
-        long endDate = plugin.getHardcoreWorldsList().getHardcoreWorldInfo(world).getEndDate(new Date(startDate)).getTime();
-        pl.set(3, Integer.toString(Integer.parseInt(pl.get(3)) + 1));
-        pl.add(message);
-        pl.add(Long.toString(startDate));
-        pl.add(Long.toString(endDate));
-        updatePlayer(world, pl, index);
-        return new DeathBanInfo(player, world, message, new Date(startDate), new Date(endDate));
-    }
-
-    public static class PlayerInfo {
-        private final Player player;
-        private final World world;
-        private final Date joinDate;
-        private final DeathBanInfo[] deaths;
-
-        public PlayerInfo(Player player, World world, Date joinDate, DeathBanInfo[] deaths) {
-            this.player = player;
-            this.world = world;
-            this.joinDate = joinDate;
-            this.deaths = deaths;
-        }
-
-        public Player getPlayer() {
-            return player;
-        }
-
-        public World getWorld() {
-            return world;
-        }
-
-        public Date getJoinDate() {
-            return joinDate;
-        }
-
-        public int getNumDeaths() {
-            return deaths.length;
-        }
-
-        public DeathBanInfo[] getDeaths() {
-            return deaths;
-        }
-
-        public Date getUnBanDate() {
-            if (deaths.length == 0) return null;
-            return deaths[deaths.length - 1].endDate;
-        }
-
-        public boolean isDeathBanned() {
-            if (deaths.length == 0) return false;
-            return deaths[deaths.length - 1].isActive();
-        }
-
-        public boolean isBannedForever() {
-            if (deaths.length == 0) return false;
-            return deaths[deaths.length - 1].isForever();
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder str = new StringBuilder("- Join Date: " + joinDate + "\n" +
-                    "- Death banned: " + (isBannedForever() ? "YES" : "NO") + "\n" +
-                    "- Deaths: " + deaths.length + "\n");
-            for (DeathBanInfo death : deaths) {
-                str.append("  ");
-                str.append(death.toString());
-                str.append("\n");
-            }
-            return str.toString();
-        }
-    }
-
-    public static class DeathBanInfo {
-
-        public static final Date FOREVER = new Date(Long.MAX_VALUE);
-
-        private final Player player;
-        private final World world;
-        private final String message;
-        private final Date startDate;
-        private final Date endDate;
-
-        public DeathBanInfo(Player player, World world, String message, Date startDate, Date endDate) {
-            this.player = player;
-            this.world = world;
-            this.message = message;
-            this.startDate = startDate;
-            this.endDate = endDate;
-        }
-
-        public Player getPlayer() {
-            return player;
-        }
-
-        public World getWorld() {
-            return world;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public boolean isActive() {
-            return endDate.compareTo(new Date()) > 0;
-        }
-
-        public boolean isForever() {
-            return endDate.compareTo(FOREVER) == 0;
-        }
-
-        @Override
-        public String toString() {
-            return startDate + " - " + (isForever() ? "FOREVER" : endDate);
-        }
+        throw new PlayerNotParticipatedException(
+                "Player " + player.getName() + " has not participated in the world " + world.getName());
     }
 }

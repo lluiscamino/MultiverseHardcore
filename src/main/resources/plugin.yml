@@ -1,12 +1,12 @@
 name: MultiverseHardcore
-version: 1.0
+version: 1.0.2
 main: life.lluis.multiversehardcore.MultiverseHardcore
 commands:
   mvhc:
     description: Main MultiverseHardcore command. Options = { create, makehc, player, world, list, version }
     usage: /<command> [option]
-    aliases: []
+    aliases: [ ]
   mvhchelp:
     description: Displays MultiverseHardcore options.
     usage: /<command>
-    aliases: []
+    aliases: [ ]

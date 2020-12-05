@@ -1,6 +1,6 @@
 package life.lluis.multiversehardcore.events;
 
-import life.lluis.multiversehardcore.MultiverseHardcore;
+import life.lluis.multiversehardcore.utils.WorldUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -10,6 +10,6 @@ public class PlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        MultiverseHardcore.getInstance().handlePlayerEnterWorld(event);
+        WorldUtils.handlePlayerEnterWorld(event);
     }
 }

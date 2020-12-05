@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public class List {
+public abstract class List {
 
     protected final String fileName;
     protected final MultiverseHardcore plugin;
@@ -22,20 +22,15 @@ public class List {
     }
 
     protected void load() {
-        file = new File(plugin.getDataFolder(), fileName);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                System.out.println("Could not create " + fileName);
-                e.printStackTrace();
-            }
-        }
-        listFile = new YamlConfiguration();
         try {
+            file = new File(plugin.getDataFolder(), fileName);
+            if (!file.exists() && !createNewFile()) {
+                throw new RuntimeException("Could not create new file " + fileName);
+            }
+            listFile = new YamlConfiguration();
             listFile.load(file);
         } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Could not load file " + fileName);
         }
     }
 
@@ -44,6 +39,14 @@ public class List {
             listFile.save(file);
         } catch (IOException e) {
             System.out.println("Couldn't save file");
+        }
+    }
+
+    private boolean createNewFile() {
+        try {
+            return file.createNewFile();
+        } catch (IOException e) {
+            return false;
         }
     }
 

@@ -1,30 +1,58 @@
 package life.lluis.multiversehardcore.events;
 
-import life.lluis.multiversehardcore.MultiverseHardcore;
-import life.lluis.multiversehardcore.files.PlayersList;
-import org.bukkit.Bukkit;
+import life.lluis.multiversehardcore.exceptions.PlayerNotParticipatedException;
+import life.lluis.multiversehardcore.exceptions.WorldIsNotHardcoreException;
+import life.lluis.multiversehardcore.models.DeathBan;
+import life.lluis.multiversehardcore.models.PlayerParticipation;
+import life.lluis.multiversehardcore.utils.MessageSender;
+import life.lluis.multiversehardcore.utils.WorldUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import java.util.Date;
+
 public class PlayerDeath implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(PlayerDeathEvent event) {
-        Player player = event.getEntity();
-        MultiverseHardcore plugin = MultiverseHardcore.getInstance();
-        World world = player.getWorld();
-
-        PlayersList.DeathBanInfo deathBanInfo = plugin.getPlayersList().addDeathBan(player, world, event.getDeathMessage());
-        if (deathBanInfo == null) return;
-        if (deathBanInfo.isForever()) {
-            Bukkit.broadcastMessage(plugin.getPrefix() + player.getDisplayName() + " died and won't be able to join the world " + ChatColor.RED + world.getName() + ChatColor.RESET + " again!");
-        } else {
-            Bukkit.broadcastMessage(plugin.getPrefix() + player.getDisplayName() + " died and won't be able to join the world " + ChatColor.RED + world.getName() + ChatColor.RESET + " until " + deathBanInfo.getEndDate());
+        try {
+            Player player = event.getEntity();
+            World world = getDeathBanWorld(player);
+            PlayerParticipation participation = new PlayerParticipation(player, world);
+            participation.addDeathBan(new Date(), event.getDeathMessage());
+            sendPlayerDiedMessage(participation);
+            player.setHealth(20);
+            WorldUtils.handlePlayerEnterWorld(event);
+        } catch (PlayerNotParticipatedException | WorldIsNotHardcoreException ignored) {
         }
     }
 
+    private World getDeathBanWorld(Player player) throws WorldIsNotHardcoreException {
+        World world = player.getWorld();
+        World normalWorld = WorldUtils.getNormalWorld(world);
+
+        if (!WorldUtils.worldIsHardcore(world) && !WorldUtils.worldIsHardcore(normalWorld)) {
+            throw new WorldIsNotHardcoreException("");
+        } else if (!WorldUtils.worldIsHardcore(world)) {
+            world = normalWorld;
+        }
+        return world;
+    }
+
+    private void sendPlayerDiedMessage(PlayerParticipation participation) {
+        DeathBan deathBan = participation.getLastDeathBan(); // last death ban
+        Player player = participation.getPlayer();
+        World world = participation.getWorld();
+        String message = deathBan.isForever() ?
+                player.getDisplayName() + " died and won't be able to play in the world " +
+                        ChatColor.RED + world.getName() + ChatColor.RESET + " again!" :
+                player.getDisplayName() + " died and won't be able to play in the world " +
+                        ChatColor.RED + world.getName() + ChatColor.RESET + " until " + deathBan.getEndDate();
+        MessageSender.broadcast(message);
+    }
 }

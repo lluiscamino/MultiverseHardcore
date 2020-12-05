@@ -1,5 +1,5 @@
 # MultiverseHardcore
-Minecraft Version: _1.15_
+Minecraft Version: _1.16_
 
 With this plugin, you can prevent your players from entering a world if they die in it.
 
@@ -55,6 +55,13 @@ Use this command if you already have a world created and want to make it Hardcor
 ```
 /mvhc makehc <world> [spectator_mode] [ban_ops] [ban_forever] [ban_length] [include_nether] [include_end] [respawn_world]
 ```
+
+### Unban player
+Use this command to unban a death banned player from a hardcore world
+```
+/mvhc unban <world> <player>
+```
+
 The options are all explained in the previous command.
 
 ### See player info
@@ -83,7 +90,3 @@ Use this command to get a list of all Hardcore worlds in your server:
 ```
 /mvhc version
 ```
-
-## FAQ
-1. __Players can still play after they have been killed on a Hardcore world.__
-Increase the `enter_world_ticks` value on the `config.yml` file.
