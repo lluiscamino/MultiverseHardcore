@@ -55,14 +55,13 @@ Use this command if you already have a world created and want to make it Hardcor
 ```
 /mvhc makehc <world> [spectator_mode] [ban_ops] [ban_forever] [ban_length] [include_nether] [include_end] [respawn_world]
 ```
+The options are all explained in the previous command.
 
 ### Unban player
 Use this command to unban a death banned player from a hardcore world
 ```
 /mvhc unban <world> <player>
 ```
-
-The options are all explained in the previous command.
 
 ### See player info
 Use this command to see information about a player in a Hardcore world:
