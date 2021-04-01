@@ -28,7 +28,8 @@ public class HardcoreWorldsList extends List {
     }
 
     public String[] getHardcoreWorldNames() {
-        return listFile.getValues(false).keySet().toArray(String[]::new);
+        int worldCount = listFile.getValues(false).size();
+        return listFile.getValues(false).keySet().toArray(new String[worldCount]);
     }
 
     public HardcoreWorldConfiguration getHardcoreWorldConfiguration(@NotNull String worldName)
