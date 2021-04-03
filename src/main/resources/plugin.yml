@@ -1,6 +1,6 @@
 name: MultiverseHardcore
 version: 1.0.3
-main: life.lluis.multiversehardcore.MultiverseHardcore
+main: me.lluiscamino.multiversehardcore.MultiverseHardcore
 commands:
   mvhc:
     description: Main MultiverseHardcore command. Options = { create, makehc, player, world, list, version }
