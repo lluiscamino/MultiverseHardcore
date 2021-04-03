@@ -1,4 +1,4 @@
-package utils;
+package me.lluiscamino.multiversehardcore.utils;
 
 import be.seeseemelk.mockbukkit.WorldMock;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;

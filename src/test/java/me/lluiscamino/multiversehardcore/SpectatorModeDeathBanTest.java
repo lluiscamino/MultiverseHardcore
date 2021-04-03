@@ -1,18 +1,19 @@
+package me.lluiscamino.multiversehardcore;
+
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import life.lluis.multiversehardcore.MultiverseHardcore;
-import life.lluis.multiversehardcore.exceptions.HardcoreWorldCreationException;
-import life.lluis.multiversehardcore.models.HardcoreWorld;
-import life.lluis.multiversehardcore.models.HardcoreWorldConfiguration;
+import me.lluiscamino.multiversehardcore.exceptions.HardcoreWorldCreationException;
+import me.lluiscamino.multiversehardcore.models.HardcoreWorld;
+import me.lluiscamino.multiversehardcore.models.HardcoreWorldConfiguration;
 import org.bukkit.GameMode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import utils.MockMVWorldManager;
-import utils.MockWorldCreator;
-import utils.TestUtils;
+import me.lluiscamino.multiversehardcore.utils.MockMVWorldManager;
+import me.lluiscamino.multiversehardcore.utils.MockWorldCreator;
+import me.lluiscamino.multiversehardcore.utils.TestUtils;
 
 import java.util.Date;
 

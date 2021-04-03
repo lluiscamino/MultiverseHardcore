@@ -1,24 +1,50 @@
-package maincommand;
+package me.lluiscamino.multiversehardcore;
 
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import me.lluiscamino.multiversehardcore.commands.HelpCommand;
 import org.bukkit.ChatColor;
+import org.bukkit.command.PluginCommand;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import utils.TestUtils;
+import me.lluiscamino.multiversehardcore.utils.MockMVWorldManager;
+import me.lluiscamino.multiversehardcore.utils.TestUtils;
 
-public class InvalidUsageTest extends MainCommandTest {
+public class HelpCommandTest {
+
+    private final HelpCommand helpCommand = new HelpCommand();
+    private ServerMock server;
+    private PluginCommand command;
+
+    @Before
+    public void setUp() {
+        server = MockBukkit.mock();
+        MultiverseHardcore plugin = MockBukkit.load(MultiverseHardcore.class);
+        MockMVWorldManager worldManager = new MockMVWorldManager(server);
+        plugin.setMVWorldManager(worldManager);
+        if (command == null) command = MultiverseHardcore.getInstance().getCommand("mvhchelp");
+    }
+
+    @After
+    public void tearDown() {
+        MockBukkit.unmock();
+    }
+
     @Test
-    public void getHelpMessageWhenNoArgs() {
+    public void helpDialogIsCorrect() {
         String expectedMessage =
                 ChatColor.BOLD + "Available commands: " + ChatColor.RESET + "\n" +
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " player" + ChatColor.RESET + "\n" +
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " world" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
-        mainCommand.onCommand(player, command, "", new String[0]);
+        helpCommand.onCommand(player, command, "", new String[]{});
         TestUtils.assertMessage(player, expectedMessage);
     }
 
     @Test
-    public void getHelpMessageWhenNoArgsOP() {
+    public void helpDialogIsCorrectAsOP() {
         String expectedMessage =
                 ChatColor.BOLD + "Available commands: " + ChatColor.RESET + "\n" +
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " create" + ChatColor.RED
@@ -33,16 +59,9 @@ public class InvalidUsageTest extends MainCommandTest {
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " unban" + ChatColor.RESET +
                         ChatColor.RED + " <world> <player>" + ChatColor.RESET + "\n" +
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " version" + ChatColor.RESET + "\n";
-        PlayerMock player = TestUtils.addOP(server);
-        mainCommand.onCommand(player, command, "", new String[0]);
-        TestUtils.assertMessage(player, expectedMessage);
+        PlayerMock op = TestUtils.addOP(server);
+        helpCommand.onCommand(op, command, "", new String[]{});
+        TestUtils.assertMessage(op, expectedMessage);
     }
 
-    @Test
-    public void getErrorMessageWhenInvalidSubCommand() {
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED + "Invalid subcommand <invalid-subcommand>!" + ChatColor.RESET;
-        PlayerMock player = server.addPlayer();
-        mainCommand.onCommand(player, command, "", new String[]{"invalid-subcommand"});
-        TestUtils.assertMessage(player, expectedMessage);
-    }
 }

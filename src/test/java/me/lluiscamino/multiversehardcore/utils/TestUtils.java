@@ -1,4 +1,4 @@
-package utils;
+package me.lluiscamino.multiversehardcore.utils;
 
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.WorldMock;

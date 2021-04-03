@@ -1,10 +1,10 @@
-package utils;
+package me.lluiscamino.multiversehardcore.utils;
 
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.WorldMock;
-import life.lluis.multiversehardcore.exceptions.HardcoreWorldCreationException;
-import life.lluis.multiversehardcore.models.HardcoreWorld;
-import life.lluis.multiversehardcore.models.HardcoreWorldConfiguration;
+import me.lluiscamino.multiversehardcore.exceptions.HardcoreWorldCreationException;
+import me.lluiscamino.multiversehardcore.models.HardcoreWorld;
+import me.lluiscamino.multiversehardcore.models.HardcoreWorldConfiguration;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 

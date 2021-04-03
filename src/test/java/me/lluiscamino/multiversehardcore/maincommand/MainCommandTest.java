@@ -1,14 +1,14 @@
-package maincommand;
+package me.lluiscamino.multiversehardcore.maincommand;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import life.lluis.multiversehardcore.MultiverseHardcore;
-import life.lluis.multiversehardcore.commands.MainCommand;
+import me.lluiscamino.multiversehardcore.MultiverseHardcore;
+import me.lluiscamino.multiversehardcore.commands.MainCommand;
 import org.bukkit.command.PluginCommand;
 import org.junit.After;
 import org.junit.Before;
-import utils.MockMVWorldManager;
-import utils.MockWorldCreator;
+import me.lluiscamino.multiversehardcore.utils.MockMVWorldManager;
+import me.lluiscamino.multiversehardcore.utils.MockWorldCreator;
 
 public abstract class MainCommandTest {
     protected final MainCommand mainCommand = new MainCommand();

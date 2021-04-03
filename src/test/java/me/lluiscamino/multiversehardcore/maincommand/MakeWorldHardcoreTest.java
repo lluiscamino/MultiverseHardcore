@@ -1,12 +1,11 @@
-package maincommand;
+package me.lluiscamino.multiversehardcore.maincommand;
 
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import org.bukkit.ChatColor;
-import org.junit.Ignore;
 import org.junit.Test;
-import utils.TestUtils;
+import me.lluiscamino.multiversehardcore.utils.TestUtils;
 
 public class MakeWorldHardcoreTest extends MainCommandTest {
     @Test
