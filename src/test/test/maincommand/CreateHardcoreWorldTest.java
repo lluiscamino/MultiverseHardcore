@@ -114,7 +114,6 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
                 !worldManager.isMVWorld("hardcore_world_the_end");
     }
 
-    @Ignore("Operation isOP is not implemented for ConsoleCommandSenderMock")
     @Test
     public void consoleCanCreateSimpleHardcoreWorld() {
         String worldName = "hardcore_world";

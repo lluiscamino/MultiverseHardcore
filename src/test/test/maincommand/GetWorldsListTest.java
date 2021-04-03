@@ -30,7 +30,6 @@ public class GetWorldsListTest extends MainCommandTest {
         TestUtils.assertMessage(op, expectedMessage);
     }
 
-    @Ignore("Operation isOP is not implemented for ConsoleCommandSenderMock")
     @Test
     public void consoleCanSeeEmptyWorldsList() {
         String[] args = {"list"};

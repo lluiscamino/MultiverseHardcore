@@ -103,7 +103,6 @@ public class MakeWorldHardcoreTest extends MainCommandTest {
         TestUtils.assertMessage(player, expectedMessage);
     }
 
-    @Ignore("Operation isOP is not implemented for ConsoleCommandSenderMock")
     @Test
     public void consoleCanMakeWorldHardcore() {
         WorldMock world = mockWorldCreator.createNormalWorld();

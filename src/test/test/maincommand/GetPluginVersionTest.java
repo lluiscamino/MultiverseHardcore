@@ -29,12 +29,11 @@ public class GetPluginVersionTest extends MainCommandTest {
         TestUtils.assertMessage(op, expectedMessage);
     }
 
-    @Ignore("Operation isOP is not implemented for ConsoleCommandSenderMock")
     @Test
     public void consoleCanSeePluginVersion() {
         String[] args = {"version"};
         ConsoleCommandSenderMock console = new ConsoleCommandSenderMock();
-        String pluginVersion = plugin.getConfig().getString("version");
+        String pluginVersion = plugin.getDescription().getVersion();
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
                 + ChatColor.BLUE + "Version: " + pluginVersion + ChatColor.RESET;
         mainCommand.onCommand(console, command, "", args);
