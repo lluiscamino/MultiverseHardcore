@@ -1,4 +1,11 @@
 # MultiverseHardcore
+[![Spigot version](https://img.shields.io/spiget/version/77749?label=version)](https://www.spigotmc.org/resources/multiversehardcore-temporary-and-permanent-death-bans.77749/)
+[![Plugin size](https://img.shields.io/spiget/download-size/77749)](https://www.spigotmc.org/resources/multiversehardcore-temporary-and-permanent-death-bans.77749/)
+[![Spigot average rating](https://img.shields.io/spiget/rating/77749)](https://www.spigotmc.org/resources/multiversehardcore-temporary-and-permanent-death-bans.77749/)
+[![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/lluiscamino/MultiverseHardcore)](https://scrutinizer-ci.com/g/lluiscamino/MultiverseHardcore/)
+[![Open issues](https://img.shields.io/github/issues/lluiscamino/MultiverseHardcore)](https://github.com/lluiscamino/MultiverseHardcore/issues)
+[![license](https://img.shields.io/github/license/lluiscamino/MultiverseHardcore)](https://github.com/lluiscamino/MultiverseHardcore)
+
 Minecraft Version: _1.16_
 
 With this plugin, you can prevent your players from entering a world if they die in it.
