@@ -21,12 +21,18 @@ public class MultiverseHardcore extends JavaPlugin {
 
     private static MultiverseHardcore instance;
     private MVWorldManager MVWorldManager;
+    private final boolean testing;
 
-    // Constructor needed for tests. Disable when not testing.
-    /*protected MultiverseHardcore(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+    public MultiverseHardcore() {
+        testing = false;
+    }
+
+    // Constructor needed for tests.
+    protected MultiverseHardcore(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
         super(loader, description, dataFolder, file);
         MVWorldManager = null;
-    }*/
+        testing = true;
+    }
 
     public static MultiverseHardcore getInstance() {
         return instance;
@@ -43,7 +49,9 @@ public class MultiverseHardcore extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        loadMultiverseCore(); // Disable when testing
+        if (!testing) {
+            loadMultiverseCore();
+        }
         saveDefaultConfig();
         loadEventListeners();
         loadCommands();
