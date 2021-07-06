@@ -11,10 +11,9 @@ import java.util.List;
 
 public class GetWorldsListSubcommand extends MainSubcommand {
     @Override
-    public void onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        try {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        if (sender.hasPermission("multiversehardcore.list")) {
             initProperties(sender, args);
-            checkSenderIsOp();
             MessageSender.sendInfo(sender, "Worlds list: ");
             List<HardcoreWorld> hcWorlds = HardcoreWorld.getHardcoreWorlds();
             StringBuilder worldsListMessage = new StringBuilder();
@@ -22,9 +21,10 @@ public class GetWorldsListSubcommand extends MainSubcommand {
                 appendWorldInfo(worldsListMessage, hcWorld);
             }
             sender.sendMessage(worldsListMessage.toString());
-        } catch (InvalidCommandInputException e) {
-            MessageSender.sendError(sender, e.getMessage());
+        } else {
+            MessageSender.sendError(sender, MainSubcommand.PERMISSION_ERROR);
         }
+        return true;
     }
 
     private void appendWorldInfo(@NotNull StringBuilder worldsListMessage, @NotNull HardcoreWorld hcWorld) {

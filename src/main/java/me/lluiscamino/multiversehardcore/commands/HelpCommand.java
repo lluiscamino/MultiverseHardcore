@@ -9,11 +9,11 @@ import org.jetbrains.annotations.NotNull;
 public class HelpCommand implements CommandExecutor {
 
     public static final String CREATE_COMMAND = ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " create" + ChatColor.RED
-            + " <world>" + ChatColor.GOLD + " <spectator_mode> <create_nether> <create_end> <ban_ops> <ban_forever> " +
+            + " <world>" + ChatColor.GOLD + " <spectator_mode> <create_nether> <create_end> <ban_forever> " +
             "<ban_length> <include_nether> <include_end> <respawn_world>" + ChatColor.RESET;
 
     public static final String MAKE_COMMAND = ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " makehc" + ChatColor.RED +
-            " <world>" + ChatColor.GOLD + " <spectator_mode> <ban_ops> <ban_forever> <ban_length> " +
+            " <world>" + ChatColor.GOLD + " <spectator_mode> <ban_forever> <ban_length> " +
             "<include_nether> <include_end> <respawn_world>" + ChatColor.RESET;
 
     public static final String PLAYER_COMMAND = ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " player" + ChatColor.RESET;

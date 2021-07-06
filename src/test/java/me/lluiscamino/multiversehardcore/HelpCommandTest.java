@@ -48,10 +48,10 @@ public class HelpCommandTest {
         String expectedMessage =
                 ChatColor.BOLD + "Available commands: " + ChatColor.RESET + "\n" +
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " create" + ChatColor.RED
-                        + " <world>" + ChatColor.GOLD + " <spectator_mode> <create_nether> <create_end> <ban_ops> <ban_forever> " +
+                        + " <world>" + ChatColor.GOLD + " <spectator_mode> <create_nether> <create_end> <ban_forever> " +
                         "<ban_length> <include_nether> <include_end> <respawn_world>" + ChatColor.RESET + "\n" +
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " makehc" + ChatColor.RED +
-                        " <world>" + ChatColor.GOLD + " <spectator_mode> <ban_ops> <ban_forever> <ban_length> " +
+                        " <world>" + ChatColor.GOLD + " <spectator_mode> <ban_forever> <ban_length> " +
                         "<include_nether> <include_end> <respawn_world>" + ChatColor.RESET + "\n" +
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " player" + ChatColor.RESET + ChatColor.GOLD + " <world> <player>" + ChatColor.RESET + "\n" +
                         ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " world" + ChatColor.RESET + ChatColor.GOLD + " <world>" + ChatColor.RESET + "\n" +

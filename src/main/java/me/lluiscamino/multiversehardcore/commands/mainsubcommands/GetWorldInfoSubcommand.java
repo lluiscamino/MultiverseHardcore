@@ -14,17 +14,21 @@ import org.jetbrains.annotations.NotNull;
 
 public final class GetWorldInfoSubcommand extends MainSubcommand {
     @Override
-    public void onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        try {
-            initProperties(sender, args);
-            checkConsoleHasSpecifiedArgs();
-            World world = getCommandWorld();
-            checkCanGetWorldInfo(world);
-            HardcoreWorld hcWorld = new HardcoreWorld(world.getName());
-            sender.sendMessage(hcWorld.toString());
-        } catch (InvalidCommandInputException | WorldIsNotHardcoreException e) {
-            MessageSender.sendError(sender, e.getMessage());
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        if (sender.hasPermission("multiversehardcore.world")) {
+            try {
+                initProperties(sender, args);
+                checkConsoleHasSpecifiedArgs();
+                World world = getCommandWorld();
+                HardcoreWorld hcWorld = new HardcoreWorld(world.getName());
+                sender.sendMessage(hcWorld.toString());
+            } catch (InvalidCommandInputException | WorldIsNotHardcoreException e) {
+                MessageSender.sendError(sender, e.getMessage());
+            }
+        } else {
+            MessageSender.sendError(sender, MainSubcommand.PERMISSION_ERROR);
         }
+        return true;
     }
 
     private void checkConsoleHasSpecifiedArgs() throws InvalidCommandInputException {
@@ -38,12 +42,5 @@ public final class GetWorldInfoSubcommand extends MainSubcommand {
         checkWorldExists(world);
         world = WorldUtils.getNormalWorld(world);
         return world;
-    }
-
-    private void checkCanGetWorldInfo(@NotNull World world)
-            throws InvalidCommandInputException {
-        if (!sender.isOp() && !WorldUtils.playerIsInWorld((Player) sender, world)) {
-            throw new InvalidCommandInputException(getWrongUsageMessage(HelpCommand.WORLD_COMMAND));
-        }
     }
 }

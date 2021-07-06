@@ -5,8 +5,36 @@ commands:
   mvhc:
     description: Main MultiverseHardcore command. Options = { create, makehc, player, world, list, version }
     usage: /<command> [option]
+    permission: multiversehardcore.main
     aliases: [ ]
   mvhchelp:
     description: Displays MultiverseHardcore options.
     usage: /<command>
     aliases: [ ]
+permissions:
+  multiversehardcore.create:
+    description: allows creating hardcore worlds
+    default: op
+  multiversehardcore.player.self:
+    description: allows getting own participation info
+    default: op
+  multiversehardcore.player.others:
+    description: allows getting other players' participation info
+    default: op
+  multiversehardcore.version:
+    description: allows using /mvhc version
+    default: op
+  multiversehardcore.world:
+    description: allows getting world info
+    default: op
+  multiversehardcore.list:
+    description: allows listing worlds
+    default: op
+  multiversehardcore.makehc:
+    description: allows making existing worlds hardcore
+    default: op
+  multiversehardcore.unban:
+    description: allows unbanning players from worlds
+    default: op
+  multiversehardcore.bypass.*:
+    description: bypasses the hardcore death for a specific world for holder of permission

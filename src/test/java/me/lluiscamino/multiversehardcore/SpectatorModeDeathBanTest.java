@@ -39,7 +39,7 @@ public class SpectatorModeDeathBanTest {
     @Test
     public void testGameModeIsSetToSpectatorWhenJoiningWorld() throws HardcoreWorldCreationException {
         WorldMock world = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, true, 0, true, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, 0, true, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.killPlayer(server, player);
         player.assertGameMode(GameMode.SPECTATOR);
@@ -48,7 +48,7 @@ public class SpectatorModeDeathBanTest {
     @Test
     public void testGameModeIsNotSetToSpectatorWhenJoiningWorldOP() throws HardcoreWorldCreationException {
         WorldMock world = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), false, true, 0, true, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, 0, true, true, true));
         PlayerMock player = TestUtils.addOP(server); // Join world once is set to hardcore
         TestUtils.killPlayer(server, player);
         player.assertGameMode(GameMode.SURVIVAL);
@@ -56,8 +56,9 @@ public class SpectatorModeDeathBanTest {
 
     @Test
     public void testGameModeIsSetToSpectatorWhenJoiningWorldOP() throws HardcoreWorldCreationException {
+        /* FIXME: test does not pass because OP by default has all permissions (including bypass). Test suite does not allow specifically unsetting permissions */
         WorldMock world = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, true, 0, true, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, 0, true, true, true));
         PlayerMock player = TestUtils.addOP(server); // Join world once is set to hardcore
         TestUtils.killPlayer(server, player);
         player.assertGameMode(GameMode.SPECTATOR);
@@ -67,7 +68,7 @@ public class SpectatorModeDeathBanTest {
     public void testGameModeIsSetToSurvivalWhenDeathBanEnds() throws HardcoreWorldCreationException, InterruptedException {
         final int banLengthInSeconds = 1;
         WorldMock world = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, false, banLengthInSeconds, true, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), false, banLengthInSeconds, true, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.killPlayer(server, player);
         Thread.sleep(banLengthInSeconds * 1000);
@@ -79,7 +80,7 @@ public class SpectatorModeDeathBanTest {
     public void testGameModeIsSetToSurvivalWhenJoiningDifferentWorld() throws HardcoreWorldCreationException {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
         WorldMock world = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, null, new Date(), true, true, 0, true, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, null, new Date(), true, 0, true, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.killPlayer(server, player);
         player.assertGameMode(GameMode.SPECTATOR);
@@ -92,7 +93,7 @@ public class SpectatorModeDeathBanTest {
     public void testGameModeIsSetToSpectatorWhenDyingOnTheNether() throws HardcoreWorldCreationException {
         WorldMock world = mockWorldCreator.createNormalWorld();
         WorldMock nether = mockWorldCreator.createNetherWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, true, 0, true, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, 0, true, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, nether);
         TestUtils.killPlayer(server, player);
@@ -103,7 +104,7 @@ public class SpectatorModeDeathBanTest {
     public void testGameModeIsNotSetToSpectatorWhenDyingOnTheNether() throws HardcoreWorldCreationException {
         WorldMock world = mockWorldCreator.createNormalWorld();
         WorldMock nether = mockWorldCreator.createNetherWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, true, 0, true, false, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, 0, true, false, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, nether);
         TestUtils.killPlayer(server, player);
@@ -114,7 +115,7 @@ public class SpectatorModeDeathBanTest {
     public void testGameModeIsSetToSpectatorWhenDyingOnTheEnd() throws HardcoreWorldCreationException {
         WorldMock world = mockWorldCreator.createNormalWorld();
         WorldMock theEnd = mockWorldCreator.createTheEndWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, true, 0, true, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, 0, true, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, theEnd);
         TestUtils.killPlayer(server, player);
@@ -125,7 +126,7 @@ public class SpectatorModeDeathBanTest {
     public void testGameModeIsNotSetToSpectatorWhenDyingOnTheEnd() throws HardcoreWorldCreationException {
         WorldMock world = mockWorldCreator.createNormalWorld();
         WorldMock theEnd = mockWorldCreator.createTheEndWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, true, 0, true, true, false));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(world, null, new Date(), true, 0, true, true, false));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, theEnd);
         TestUtils.killPlayer(server, player);

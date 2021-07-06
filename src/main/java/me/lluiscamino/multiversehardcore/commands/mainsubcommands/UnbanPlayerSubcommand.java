@@ -20,16 +20,20 @@ public final class UnbanPlayerSubcommand extends MainSubcommand {
     private Player player;
 
     @Override
-    public void onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        try {
-            initProperties(sender, args);
-            checkSenderIsOp();
-            checkSenderHasSpecifiedArgs();
-            attemptPlayerUnban();
-            sendSuccessMessage();
-        } catch (InvalidCommandInputException | PlayerNotParticipatedException | WorldIsNotHardcoreException e) {
-            MessageSender.sendError(sender, e.getMessage());
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        if (sender.hasPermission("multiversehardcore.unban")) {
+            try {
+                initProperties(sender, args);
+                checkSenderHasSpecifiedArgs();
+                attemptPlayerUnban();
+                sendSuccessMessage();
+            } catch (InvalidCommandInputException | PlayerNotParticipatedException | WorldIsNotHardcoreException e) {
+                MessageSender.sendError(sender, e.getMessage());
+            }
+        } else {
+            MessageSender.sendError(sender, MainSubcommand.PERMISSION_ERROR);
         }
+        return true;
     }
 
     private void checkSenderHasSpecifiedArgs() throws InvalidCommandInputException {

@@ -90,7 +90,7 @@ public class PlayerParticipation {
     }
 
     private boolean isImmuneToDeathBan() {
-        return player.isOp() && !hcWorld.getConfiguration().isBanOps();
+        return player.hasPermission("multiverse.bypass." + hcWorld.getConfiguration().getWorld().getName());
     }
 
     private void reloadDeathBans() {
