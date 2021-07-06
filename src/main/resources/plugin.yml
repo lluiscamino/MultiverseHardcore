@@ -36,5 +36,6 @@ permissions:
   multiversehardcore.unban:
     description: allows unbanning players from worlds
     default: op
-  multiversehardcore.bypass.*:
+  multiversehardcore.bypass.<world>:
     description: bypasses the hardcore death for a specific world for holder of permission
+    default: false
