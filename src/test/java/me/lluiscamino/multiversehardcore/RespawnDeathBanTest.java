@@ -40,7 +40,7 @@ public class RespawnDeathBanTest {
     @Test
     public void playerIsTeleportedWhenJoiningWorld() throws HardcoreWorldCreationException {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, true, 0, false, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, 0, false, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, hcWorld);
         TestUtils.fireJoinEvent(server, player);
@@ -55,7 +55,7 @@ public class RespawnDeathBanTest {
     public void OPIsNotTeleportedWhenJoiningWorld() throws HardcoreWorldCreationException {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
         WorldMock world = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), false, true, 0, false, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, 0, false, true, true));
         PlayerMock player = TestUtils.addOP(server);
         TestUtils.killPlayer(server, player);
         TestUtils.teleportPlayer(player, hcWorld);
@@ -67,7 +67,7 @@ public class RespawnDeathBanTest {
     @Test
     public void OPIsTeleportedWhenJoiningWorld() throws HardcoreWorldCreationException {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, true, 0, false, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, 0, false, true, true));
         PlayerMock player = TestUtils.addOP(server);
         TestUtils.teleportPlayer(player, hcWorld);
         TestUtils.fireJoinEvent(server, player);
@@ -81,7 +81,7 @@ public class RespawnDeathBanTest {
         final int banLengthInSeconds = 1;
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
         WorldMock world = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, false, banLengthInSeconds, false, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), false, banLengthInSeconds, false, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.killPlayer(server, player);
         Thread.sleep(banLengthInSeconds * 1000);
@@ -96,7 +96,7 @@ public class RespawnDeathBanTest {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
         WorldMock world1 = mockWorldCreator.createNormalWorld();
         WorldMock world2 = mockWorldCreator.createNormalWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world1, new Date(), true, true, 0, false, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world1, new Date(), true, 0, false, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.killPlayer(server, player);
         TestUtils.teleportPlayer(player, hcWorld);
@@ -111,7 +111,7 @@ public class RespawnDeathBanTest {
     public void playerIsTeleportedWhenDyingOnTheNether() throws HardcoreWorldCreationException {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
         WorldMock nether = mockWorldCreator.createNetherWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, true, 0, false, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, 0, false, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, nether);
         TestUtils.fireJoinEvent(server, player);
@@ -125,7 +125,7 @@ public class RespawnDeathBanTest {
     public void playerIsNotTeleportedWhenDyingOnTheNether() throws HardcoreWorldCreationException {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
         WorldMock nether = mockWorldCreator.createNetherWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, true, 0, false, false, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, 0, false, false, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, nether);
         TestUtils.fireJoinEvent(server, player);
@@ -138,7 +138,7 @@ public class RespawnDeathBanTest {
     public void playerIsTeleportedWhenDyingOnTheEnd() throws HardcoreWorldCreationException {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
         WorldMock theEnd = mockWorldCreator.createTheEndWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, true, 0, false, true, true));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, 0, false, true, true));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, theEnd);
         TestUtils.fireJoinEvent(server, player);
@@ -151,7 +151,7 @@ public class RespawnDeathBanTest {
     public void playerIsNotTeleportedWhenDyingOnTheEnd() throws HardcoreWorldCreationException {
         WorldMock hcWorld = mockWorldCreator.createNormalWorld();
         WorldMock theEnd = mockWorldCreator.createTheEndWorld();
-        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, true, 0, false, true, false));
+        HardcoreWorld.createHardcoreWorld(new HardcoreWorldConfiguration(hcWorld, world, new Date(), true, 0, false, true, false));
         PlayerMock player = server.addPlayer(); // Join world once is set to hardcore
         TestUtils.teleportPlayer(player, theEnd);
         TestUtils.fireJoinEvent(server, player);

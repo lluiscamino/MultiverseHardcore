@@ -8,12 +8,13 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class MainSubcommand {
+    public static final String PERMISSION_ERROR = "You do not have permission to use this command";
 
     protected MultiverseHardcore plugin = MultiverseHardcore.getInstance();
     protected CommandSender sender;
     protected String[] args;
 
-    public abstract void onCommand(@NotNull CommandSender sender, @NotNull String[] args);
+    public abstract boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args);
 
     protected void initProperties(@NotNull CommandSender sender, @NotNull String[] args) {
         this.sender = sender;

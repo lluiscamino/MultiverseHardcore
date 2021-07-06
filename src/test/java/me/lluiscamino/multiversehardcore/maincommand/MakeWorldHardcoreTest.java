@@ -3,6 +3,7 @@ package me.lluiscamino.multiversehardcore.maincommand;
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import me.lluiscamino.multiversehardcore.commands.MainSubcommand;
 import org.bukkit.ChatColor;
 import org.junit.Test;
 import me.lluiscamino.multiversehardcore.utils.TestUtils;
@@ -12,7 +13,7 @@ public class MakeWorldHardcoreTest extends MainCommandTest {
     public void playerCannotMakeWorldHardcore() {
         String[] args = {"makehc", "hc_world"};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
-                + ChatColor.RED + "Only OPs can use this command!" + ChatColor.RESET;
+                + ChatColor.RED + MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         mainCommand.onCommand(player, command, "", args);
         TestUtils.assertMessage(player, expectedMessage);
@@ -23,7 +24,7 @@ public class MakeWorldHardcoreTest extends MainCommandTest {
         String[] args = {"makehc"};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
                 + ChatColor.RED + "Wrong usage: " + ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " makehc"
-                + ChatColor.RED + " <world>" + ChatColor.GOLD + " <spectator_mode> <ban_ops> <ban_forever> " +
+                + ChatColor.RED + " <world>" + ChatColor.GOLD + " <spectator_mode> <ban_forever> " +
                 "<ban_length> <include_nether> <include_end> <respawn_world>" + ChatColor.RESET + ChatColor.RESET;
         PlayerMock player = TestUtils.addOP(server);
         mainCommand.onCommand(player, command, "", args);
@@ -57,7 +58,7 @@ public class MakeWorldHardcoreTest extends MainCommandTest {
     public void cannotMakeAnRespawnHardcoreWorldThatEqualsRespawnWorld() {
         WorldMock world = mockWorldCreator.createNormalWorld();
         String worldName = world.getName();
-        String[] args = {"makehc", worldName, "false", "true", "true", "0", "true", "true", worldName};
+        String[] args = {"makehc", worldName, "false", "true", "0", "true", "true", worldName};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
                 "World and spawn world cannot be equal" + ChatColor.RESET;
         PlayerMock player = TestUtils.addOP(server);
@@ -69,7 +70,7 @@ public class MakeWorldHardcoreTest extends MainCommandTest {
     public void cannotMakeAnRespawnHardcoreWorldWithNonExistentRespawnWorld() {
         WorldMock world = mockWorldCreator.createNormalWorld();
         String worldName = world.getName();
-        String[] args = {"makehc", worldName, "false", "true", "true", "0", "true", "true", "non_existing_world"};
+        String[] args = {"makehc", worldName, "false", "true", "0", "true", "true", "non_existing_world"};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
                 "Respawn world does not exist" + ChatColor.RESET;
         PlayerMock player = TestUtils.addOP(server);
@@ -81,7 +82,7 @@ public class MakeWorldHardcoreTest extends MainCommandTest {
     public void cannotMakeAnRespawnHardcoreWorldWithAHardcoreRespawnWorld() {
         WorldMock world = mockWorldCreator.createNormalWorld();
         WorldMock respawnWorld = mockWorldCreator.createNormalWorld();
-        String[] args = {"makehc", world.getName(), "false", "true", "true", "0", "true", "true", respawnWorld.getName()};
+        String[] args = {"makehc", world.getName(), "false", "true", "0", "true", "true", respawnWorld.getName()};
         String expectedMessage2 = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
                 "Respawn world cannot be hardcore" + ChatColor.RESET;
         PlayerMock player = TestUtils.addOP(server);
@@ -94,7 +95,7 @@ public class MakeWorldHardcoreTest extends MainCommandTest {
     public void cannotMakeAFiniteBanLengthHardcoreWorldWithANegativeBanLength() {
         WorldMock world = mockWorldCreator.createNormalWorld();
         String worldName = world.getName();
-        String[] args = {"makehc", worldName, "true", "true", "false", "-1", "true", "true", ""};
+        String[] args = {"makehc", worldName, "true", "false", "-1", "true", "true", ""};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
                 "Ban length cannot be less than 0" + ChatColor.RESET;
         PlayerMock player = TestUtils.addOP(server);

@@ -43,14 +43,13 @@ For more options when creating a world (temporary bans, respawn world, Nether, T
 ### Create a Hardcore world
 With this command, you can create a default Multiverse world in your server and make it Hardcore.
 ```
-/mvhc create <world> [spectator_mode] [create_nether] [create_end] [ban_ops] [ban_forever] [ban_length] [include_nether] [include_end] [respawn_world]
+/mvhc create <world> [spectator_mode] [create_nether] [create_end] [ban_forever] [ban_length] [include_nether] [include_end] [respawn_world]
 ```
 Options:
 * __world__: Name of the world you want to create
 * __spectator_mode__ _(Optional)_: Set to true if you want players who die to be put on spectator mode. If set to false, they will be kicked out of the world.
 * __create_nether__ _(Optional)_: Set to true if you want to create a Nether for the world. You may need [Multiverse-Netherportals](https://github.com/Multiverse/Multiverse-Core/wiki/Install-%28NetherPortals%29) for your Nether to work.
 * __create_end__ _(Optional)_: Same as __create_nether__ but with The End.
-* __ban_ops__ _(Optional)_: Set to false if you don't want OPs to be banned if they die.
 * __ban_forever__ _(Optional)_: Set to true to make the deathban permanent.
 * __ban_length__ _(Optional)_: Death ban length (in seconds). If __ban_forever__ is set to true, this value doesn't matter.
 * __include_nether__ _(Optional)_: Set to true if you want your players to be deathbanned in the main world if they die on the Nether. Also, if set to true, players who die on the main world won't be able to play in the Nether.
@@ -60,7 +59,7 @@ Options:
 ### Make a world Hardcore
 Use this command if you already have a world created and want to make it Hardcore.
 ```
-/mvhc makehc <world> [spectator_mode] [ban_ops] [ban_forever] [ban_length] [include_nether] [include_end] [respawn_world]
+/mvhc makehc <world> [spectator_mode] [ban_forever] [ban_length] [include_nether] [include_end] [respawn_world]
 ```
 The options are all explained in the previous command.
 
@@ -96,3 +95,19 @@ Use this command to get a list of all Hardcore worlds in your server:
 ```
 /mvhc version
 ```
+
+## Permissions
+Below are all the permission nodes for MultverseHardcore. All permissions are set by default for OPs. It is, as such, recommended to use a permissions plugin.
+
+|Permission|description|
+|--------|--------|
+|`multiversehardcore.main` | Gives permissions for the main /mvhc command. Without it no multiversehardcore command will be permitted |
+|`multiversehardcore.create` | Allows creating new hardcore worlds |
+|`multiversehardcore.player.self` | Allows getting player participation info of self |
+|`multiversehardcore.player.others` | Allows getting player participation info of other players |
+|`multiversehardcore.version` | Gives permissions for `/mvhc version` |
+|`multiversehardcore.world` | Allows getting world info |
+|`multiversehardcore.list` | Allows listing worlds
+|`multiversehardcore.makehc` | Allows making existing worlds hardcore |
+|`multiversehardcore.unban` | Allows unbanning players |
+|`multiversehardcore.bypass.<world>` | Allows bypassing the hardcore setting for specific worlds. Use `multiversehardcore.bypass.*` to bypass all worlds.

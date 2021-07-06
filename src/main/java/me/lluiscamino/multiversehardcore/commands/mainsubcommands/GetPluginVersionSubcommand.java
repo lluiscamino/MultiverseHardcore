@@ -8,14 +8,14 @@ import org.jetbrains.annotations.NotNull;
 
 public final class GetPluginVersionSubcommand extends MainSubcommand {
     @Override
-    public void onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        try {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        if (sender.hasPermission("multiversehardcore.version")) {
             initProperties(sender, args);
-            checkSenderIsOp();
             String pluginVersion = plugin.getDescription().getVersion();
             MessageSender.sendInfo(sender, "Version: " + pluginVersion);
-        } catch (InvalidCommandInputException e) {
-            MessageSender.sendError(sender, e.getMessage());
+        } else {
+            MessageSender.sendError(sender, MainSubcommand.PERMISSION_ERROR);
         }
+        return true;
     }
 }

@@ -4,6 +4,7 @@ import me.lluiscamino.multiversehardcore.exceptions.PlayerNotParticipatedExcepti
 import me.lluiscamino.multiversehardcore.exceptions.PlayerParticipationAlreadyExistsException;
 import me.lluiscamino.multiversehardcore.exceptions.WorldIsNotHardcoreException;
 import me.lluiscamino.multiversehardcore.files.PlayersList;
+import me.lluiscamino.multiversehardcore.utils.MessageSender;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -90,7 +91,7 @@ public class PlayerParticipation {
     }
 
     private boolean isImmuneToDeathBan() {
-        return player.isOp() && !hcWorld.getConfiguration().isBanOps();
+        return player.hasPermission("multiversehardcore.bypass." + hcWorld.getConfiguration().getWorld().getName());
     }
 
     private void reloadDeathBans() {

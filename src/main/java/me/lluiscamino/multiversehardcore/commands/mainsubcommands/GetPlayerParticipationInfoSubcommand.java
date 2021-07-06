@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class GetPlayerParticipationInfoSubcommand extends MainSubcommand {
     @Override
-    public void onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         try {
             initProperties(sender, args);
             checkConsoleHasSpecifiedArgs();
@@ -26,6 +26,7 @@ public final class GetPlayerParticipationInfoSubcommand extends MainSubcommand {
         } catch (PlayerNotParticipatedException | InvalidCommandInputException | WorldIsNotHardcoreException e) {
             MessageSender.sendError(sender, e.getMessage());
         }
+        return true;
     }
 
     private void checkConsoleHasSpecifiedArgs() throws InvalidCommandInputException {
@@ -50,9 +51,9 @@ public final class GetPlayerParticipationInfoSubcommand extends MainSubcommand {
 
     private void checkCanGetPlayerInfo(@NotNull Player player, @NotNull World world)
             throws InvalidCommandInputException {
-        if (!sender.isOp()
-                && (!commandPlayerEqualsSender(player) || !WorldUtils.playerIsInWorld((Player) sender, world))) {
-            throw new InvalidCommandInputException("You don't have permissions to see " + player.getName() + " info!");
+        if ((!sender.hasPermission("multiversehardcore.player.self") || !commandPlayerEqualsSender(player))
+                && !sender.hasPermission("multiversehardcore.player.others")) {
+            throw new InvalidCommandInputException(MainSubcommand.PERMISSION_ERROR);
         }
     }
 

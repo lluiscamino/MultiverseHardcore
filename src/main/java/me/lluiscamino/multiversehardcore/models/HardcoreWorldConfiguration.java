@@ -12,20 +12,18 @@ public class HardcoreWorldConfiguration {
     private final World world;
     private final World spawnWorld;
     private final Date startDate;
-    private final boolean banOps;
     private final boolean banForever;
     private final long banLength;
     private final boolean spectatorMode;
     private final boolean includeNether;
     private final boolean includeEnd;
 
-    public HardcoreWorldConfiguration(World world, World spawnWorld, Date startDate, boolean banOps,
+    public HardcoreWorldConfiguration(World world, World spawnWorld, Date startDate,
                                       boolean banForever, long banLength, boolean spectatorMode,
                                       boolean includeNether, boolean includeEnd) {
         this.world = world;
         this.spawnWorld = spawnWorld;
         this.startDate = startDate;
-        this.banOps = banOps;
         this.banForever = banForever;
         this.banLength = banLength;
         this.spectatorMode = spectatorMode;
@@ -39,7 +37,6 @@ public class HardcoreWorldConfiguration {
         this.world = MultiverseHardcore.getInstance().getServer().getWorld(worldName);
         this.spawnWorld = MultiverseHardcore.getInstance().getServer().getWorld((String) worldConfig.get("respawn_world"));
         this.startDate = new Date(Long.parseLong((String) worldConfig.get("start_date")));
-        this.banOps = Boolean.parseBoolean((String) worldConfig.get("ban_ops"));
         this.banForever = Boolean.parseBoolean((String) worldConfig.get("ban_forever"));
         this.banLength = Long.parseLong((String) worldConfig.get("ban_length"));
         this.spectatorMode = Boolean.parseBoolean((String) worldConfig.get("spectator_mode"));
@@ -79,10 +76,6 @@ public class HardcoreWorldConfiguration {
         return includeEnd;
     }
 
-    public boolean isBanOps() {
-        return banOps;
-    }
-
     public boolean isBanForever() {
         return banForever;
     }
@@ -116,7 +109,6 @@ public class HardcoreWorldConfiguration {
         Map<String, Object> worldConfig = new HashMap<>();
         worldConfig.put("start_date", Long.toString(startDate.getTime()));
         worldConfig.put("respawn_world", !isSpectatorMode() ? spawnWorld.getName() : "null");
-        worldConfig.put("ban_ops", Boolean.toString(banOps));
         worldConfig.put("ban_forever", Boolean.toString(banForever));
         worldConfig.put("ban_length", Long.toString(banLength * 1000));
         worldConfig.put("spectator_mode", Boolean.toString(spectatorMode));
@@ -129,7 +121,6 @@ public class HardcoreWorldConfiguration {
     public String toString() {
         String result = ChatColor.DARK_BLUE + world.getName() + ChatColor.BLUE + " info:\n" + ChatColor.RESET +
                 ChatColor.BOLD + "- Start date: " + ChatColor.RESET + startDate + "\n" +
-                ChatColor.BOLD + "- Ban OPs: " + ChatColor.RESET + banOps + "\n" +
                 ChatColor.BOLD + "- Ban Duration: " + ChatColor.RESET
                 + (banForever ? "FOREVER" : banLength / 1000 + "s") + "\n" +
                 ChatColor.BOLD + "- Spectator Mode: " + ChatColor.RESET
@@ -143,9 +134,12 @@ public class HardcoreWorldConfiguration {
     }
 
     private boolean worldConfigMapIsValid(@NotNull Map<String, Object> worldConfig) {
-        return worldConfig.containsKey("respawn_world") && worldConfig.containsKey("start_date") &&
-                worldConfig.containsKey("ban_ops") && worldConfig.containsKey("ban_forever") &&
-                worldConfig.containsKey("ban_length") && worldConfig.containsKey("spectator_mode") &&
-                worldConfig.containsKey("include_nether") && worldConfig.containsKey("include_end");
+        return worldConfig.containsKey("respawn_world")
+                && worldConfig.containsKey("start_date")
+                && worldConfig.containsKey("ban_forever")
+                && worldConfig.containsKey("ban_length")
+                && worldConfig.containsKey("spectator_mode")
+                && worldConfig.containsKey("include_nether")
+                && worldConfig.containsKey("include_end");
     }
 }
