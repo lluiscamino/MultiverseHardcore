@@ -18,7 +18,7 @@ public class MainCommand implements CommandExecutor {
             } else {
                 MainSubcommandFactory subcommandFactory = new MainSubcommandFactory();
                 MainSubcommand subcommand = subcommandFactory.getMainSubcommand(args[0]);
-                subcommand.onCommand(sender, args);
+                return subcommand.onCommand(sender, args);
             }
         } catch (InvalidMainSubcommandException e) {
             MessageSender.sendError(sender, e.getMessage());

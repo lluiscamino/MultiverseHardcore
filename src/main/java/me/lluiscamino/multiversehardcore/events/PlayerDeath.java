@@ -23,6 +23,9 @@ public class PlayerDeath implements Listener {
         try {
             Player player = event.getEntity();
             World world = getDeathBanWorld(player);
+            if (player.hasPermission("multiversehardcore.bypass." + world.getName())) {
+                return; // ignore the death if the player has bypass permissions
+            }
             PlayerParticipation participation = new PlayerParticipation(player, world);
             participation.addDeathBan(new Date(), event.getDeathMessage());
             sendPlayerDiedMessage(participation);

@@ -2,6 +2,7 @@ package me.lluiscamino.multiversehardcore.maincommand;
 
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import me.lluiscamino.multiversehardcore.commands.MainSubcommand;
 import org.bukkit.ChatColor;
 import org.junit.Test;
 import me.lluiscamino.multiversehardcore.utils.TestUtils;
@@ -14,7 +15,7 @@ public class UnbanPlayerTest extends MainCommandTest {
         String[] args = {"unban"};
         PlayerMock player = server.addPlayer();
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
-                + ChatColor.RED + "Only OPs can use this command!" + ChatColor.RESET;
+                + ChatColor.RED + MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
         mainCommand.onCommand(player, command, "", args);
         TestUtils.assertMessage(player, expectedMessage);
     }

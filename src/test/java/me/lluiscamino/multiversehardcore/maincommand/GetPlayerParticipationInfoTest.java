@@ -3,6 +3,7 @@ package me.lluiscamino.multiversehardcore.maincommand;
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import me.lluiscamino.multiversehardcore.commands.MainSubcommand;
 import org.bukkit.ChatColor;
 import org.junit.Test;
 import me.lluiscamino.multiversehardcore.utils.TestUtils;
@@ -39,6 +40,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
                 "World does not exist!" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
+        player.setOp(true);
         mainCommand.onCommand(player, command, "", args);
         TestUtils.assertMessage(player, expectedMessage);
     }
@@ -50,6 +52,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
                 "World " + world.getName() + " is not Hardcore" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
+        player.setOp(true);
         mainCommand.onCommand(player, command, "", args);
         TestUtils.assertMessage(player, expectedMessage);
     }
@@ -74,7 +77,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
         PlayerMock player2 = server.addPlayer();
         String[] args = {"player", world.getName(), player2.getName()};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
-                "You don't have permissions to see " + player2.getName() + " info!" + ChatColor.RESET;
+                MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
         mockWorldCreator.makeWorldHardcore(world);
         mainCommand.onCommand(player1, command, "", args);
         TestUtils.assertMessage(player1, expectedMessage);
@@ -87,7 +90,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
         PlayerMock player = server.addPlayer();
         String[] args = {"player", world1.getName(), player.getName()};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
-                "You don't have permissions to see " + player.getName() + " info!" + ChatColor.RESET;
+                MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
         mockWorldCreator.makeWorldHardcore(world1);
         TestUtils.teleportPlayer(player, world2);
         mainCommand.onCommand(player, command, "", args);
@@ -97,7 +100,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
     @Test
     public void playerHasToParticipateInWorldToGetPlayerInfo() {
         WorldMock world = mockWorldCreator.createNormalWorld();
-        PlayerMock player = server.addPlayer();
+        PlayerMock player = TestUtils.addOP(server);
         String[] args = {"player", world.getName(), player.getName()};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
                 "Player " + player.getName() + " has not participated in the world " + world.getName() + ChatColor.RESET;
@@ -110,6 +113,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
     public void playerCanGetHisInfo() {
         mockWorldCreator.createHardcoreWorld();
         PlayerMock player = server.addPlayer(); // Player will automatically join hardcore world
+        player.setOp(true); // testing doesn't allow specific permission setting
         Date mockJoinDate = new Date();
         String[] args = {"player"};
         String[] expectedMessages = {

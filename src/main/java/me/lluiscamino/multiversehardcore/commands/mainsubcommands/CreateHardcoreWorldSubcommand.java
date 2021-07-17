@@ -25,18 +25,23 @@ public final class CreateHardcoreWorldSubcommand extends MainSubcommand {
     private String worldName;
 
     @Override
-    public void onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        try {
-            initProperties(sender, args);
-            checkValidInput();
-            attemptWorldCreation();
-            makeWorldHardcore();
-            sendSuccessMessage();
-        } catch (HardcoreWorldCreationException e) {
-            handleHardcoreWorldCreationException(e);
-        } catch (InvalidCommandInputException e) {
-            MessageSender.sendError(sender, e.getMessage());
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        if (sender.hasPermission("multiversehardcore.create")) {
+            try {
+                initProperties(sender, args);
+                checkValidInput();
+                attemptWorldCreation();
+                makeWorldHardcore();
+                sendSuccessMessage();
+            } catch (HardcoreWorldCreationException e) {
+                handleHardcoreWorldCreationException(e);
+            } catch (InvalidCommandInputException e) {
+                MessageSender.sendError(sender, e.getMessage());
+            }
+        } else {
+            MessageSender.sendError(sender, MainSubcommand.PERMISSION_ERROR);
         }
+        return true;
     }
 
     protected void initProperties(@NotNull CommandSender sender, @NotNull String[] args) {
@@ -47,7 +52,6 @@ public final class CreateHardcoreWorldSubcommand extends MainSubcommand {
     }
 
     private void checkValidInput() throws InvalidCommandInputException {
-        checkSenderIsOp();
         checkCommandContainsWorldName();
         checkWorldDoesNotExist();
     }
@@ -91,14 +95,13 @@ public final class CreateHardcoreWorldSubcommand extends MainSubcommand {
     private HardcoreWorldConfiguration getConfigurationFromArgs() {
         return new HardcoreWorldConfiguration(
                 plugin.getServer().getWorld(args[1]),
-                args.length > 10 ? plugin.getServer().getWorld(args[10]) : null,
+                args.length > 9 ? plugin.getServer().getWorld(args[9]) : null,
                 new Date(),
                 args.length <= 5 || Boolean.parseBoolean(args[5]),
-                args.length <= 6 || Boolean.parseBoolean(args[6]),
-                args.length > 7 ? Long.parseLong(args[7]) : 30,
+                args.length > 6 ? Long.parseLong(args[6]) : 30,
                 args.length <= 2 || Boolean.parseBoolean(args[2]),
-                args.length <= 8 || Boolean.parseBoolean(args[8]),
-                args.length <= 9 || Boolean.parseBoolean(args[9]));
+                args.length <= 7 || Boolean.parseBoolean(args[7]),
+                args.length <= 8 || Boolean.parseBoolean(args[8]));
     }
 
     private boolean createWorlds() {
