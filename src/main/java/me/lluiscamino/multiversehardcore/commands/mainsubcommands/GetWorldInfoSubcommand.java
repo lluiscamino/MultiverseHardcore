@@ -15,20 +15,22 @@ import org.jetbrains.annotations.NotNull;
 public final class GetWorldInfoSubcommand extends MainSubcommand {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        if (sender.hasPermission("multiversehardcore.world")) {
-            try {
-                initProperties(sender, args);
-                checkConsoleHasSpecifiedArgs();
-                World world = getCommandWorld();
-                HardcoreWorld hcWorld = new HardcoreWorld(world.getName());
-                sender.sendMessage(hcWorld.toString());
-            } catch (InvalidCommandInputException | WorldIsNotHardcoreException e) {
-                MessageSender.sendError(sender, e.getMessage());
-            }
-        } else {
-            MessageSender.sendError(sender, MainSubcommand.PERMISSION_ERROR);
+        try {
+            initProperties(sender, args);
+            checkSenderHasPermission();
+            checkConsoleHasSpecifiedArgs();
+            World world = getCommandWorld();
+            HardcoreWorld hcWorld = new HardcoreWorld(world.getName());
+            sender.sendMessage(hcWorld.toString());
+        } catch (InvalidCommandInputException | WorldIsNotHardcoreException e) {
+            MessageSender.sendError(sender, e.getMessage());
         }
         return true;
+    }
+
+    @Override
+    protected String getRequiredPermission() {
+        return "multiversehardcore.world";
     }
 
     private void checkConsoleHasSpecifiedArgs() throws InvalidCommandInputException {

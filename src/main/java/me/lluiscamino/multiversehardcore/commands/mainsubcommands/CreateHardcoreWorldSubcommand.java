@@ -26,22 +26,23 @@ public final class CreateHardcoreWorldSubcommand extends MainSubcommand {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        if (sender.hasPermission("multiversehardcore.create")) {
-            try {
-                initProperties(sender, args);
-                checkValidInput();
-                attemptWorldCreation();
-                makeWorldHardcore();
-                sendSuccessMessage();
-            } catch (HardcoreWorldCreationException e) {
-                handleHardcoreWorldCreationException(e);
-            } catch (InvalidCommandInputException e) {
-                MessageSender.sendError(sender, e.getMessage());
-            }
-        } else {
-            MessageSender.sendError(sender, MainSubcommand.PERMISSION_ERROR);
+        try {
+            initProperties(sender, args);
+            checkValidInput();
+            attemptWorldCreation();
+            makeWorldHardcore();
+            sendSuccessMessage();
+        } catch (HardcoreWorldCreationException e) {
+            handleHardcoreWorldCreationException(e);
+        } catch (InvalidCommandInputException e) {
+            MessageSender.sendError(sender, e.getMessage());
         }
         return true;
+    }
+
+    @Override
+    protected String getRequiredPermission() {
+        return "multiversehardcore.create";
     }
 
     protected void initProperties(@NotNull CommandSender sender, @NotNull String[] args) {
@@ -52,6 +53,7 @@ public final class CreateHardcoreWorldSubcommand extends MainSubcommand {
     }
 
     private void checkValidInput() throws InvalidCommandInputException {
+        checkSenderHasPermission();
         checkCommandContainsWorldName();
         checkWorldDoesNotExist();
     }

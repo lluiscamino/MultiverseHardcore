@@ -18,7 +18,7 @@ permissions:
     default: op
   multiversehardcore.player.self:
     description: allows getting own participation info
-    default: op
+    default: true
   multiversehardcore.player.others:
     description: allows getting other players' participation info
     default: op

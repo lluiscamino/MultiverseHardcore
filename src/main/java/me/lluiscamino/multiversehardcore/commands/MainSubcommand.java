@@ -8,22 +8,22 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class MainSubcommand {
-    public static final String PERMISSION_ERROR = "You do not have permission to use this command";
-
     protected MultiverseHardcore plugin = MultiverseHardcore.getInstance();
     protected CommandSender sender;
     protected String[] args;
 
     public abstract boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args);
 
+    protected abstract String getRequiredPermission();
+
     protected void initProperties(@NotNull CommandSender sender, @NotNull String[] args) {
         this.sender = sender;
         this.args = args;
     }
 
-    protected void checkSenderIsOp() throws InvalidCommandInputException {
-        if (!sender.isOp()) {
-            throw new InvalidCommandInputException(getOnlyOPsMessage());
+    protected void checkSenderHasPermission() throws InvalidCommandInputException {
+        if (!sender.hasPermission(getRequiredPermission())) {
+            throw new InvalidCommandInputException(getPermissionErrorMessage());
         }
     }
 
@@ -43,7 +43,7 @@ public abstract class MainSubcommand {
         return "Wrong usage: " + commandText;
     }
 
-    private String getOnlyOPsMessage() {
-        return "Only OPs can use this command!";
+    private String getPermissionErrorMessage() {
+        return "You need the following permission to run this command: " + getRequiredPermission();
     }
 }

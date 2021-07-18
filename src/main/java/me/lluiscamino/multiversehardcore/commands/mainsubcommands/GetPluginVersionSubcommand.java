@@ -9,13 +9,19 @@ import org.jetbrains.annotations.NotNull;
 public final class GetPluginVersionSubcommand extends MainSubcommand {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        if (sender.hasPermission("multiversehardcore.version")) {
+        try {
             initProperties(sender, args);
+            checkSenderHasPermission();
             String pluginVersion = plugin.getDescription().getVersion();
             MessageSender.sendInfo(sender, "Version: " + pluginVersion);
-        } else {
-            MessageSender.sendError(sender, MainSubcommand.PERMISSION_ERROR);
+        } catch (InvalidCommandInputException e) {
+            MessageSender.sendError(sender, e.getMessage());
         }
         return true;
+    }
+
+    @Override
+    protected String getRequiredPermission() {
+        return "multiversehardcore.version";
     }
 }
