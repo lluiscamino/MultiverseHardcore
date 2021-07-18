@@ -4,7 +4,6 @@ import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
-import me.lluiscamino.multiversehardcore.commands.MainSubcommand;
 import org.bukkit.ChatColor;
 import org.junit.Test;
 import me.lluiscamino.multiversehardcore.utils.TestUtils;
@@ -14,7 +13,7 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
     public void playerCannotCreateHardcoreWorld() {
         String[] args = {"create", "hardcore_world"};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
-                + ChatColor.RED + MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
+                + ChatColor.RED + "You need the following permission to run this command: multiversehardcore.create" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         mainCommand.onCommand(player, command, "", args);
         TestUtils.assertMessage(player, expectedMessage);

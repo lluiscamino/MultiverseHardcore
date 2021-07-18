@@ -13,7 +13,8 @@ public class MakeWorldHardcoreTest extends MainCommandTest {
     public void playerCannotMakeWorldHardcore() {
         String[] args = {"makehc", "hc_world"};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
-                + ChatColor.RED + MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
+                + ChatColor.RED + "You need the following permission to run this command: multiversehardcore.makehc"
+                + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         mainCommand.onCommand(player, command, "", args);
         TestUtils.assertMessage(player, expectedMessage);

@@ -3,7 +3,6 @@ package me.lluiscamino.multiversehardcore.maincommand;
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import me.lluiscamino.multiversehardcore.commands.MainSubcommand;
 import org.bukkit.ChatColor;
 import org.junit.Test;
 import me.lluiscamino.multiversehardcore.utils.TestUtils;
@@ -77,24 +76,10 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
         PlayerMock player2 = server.addPlayer();
         String[] args = {"player", world.getName(), player2.getName()};
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
-                MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
+                "You need the following permission to run this command: multiversehardcore.player.others" + ChatColor.RESET;
         mockWorldCreator.makeWorldHardcore(world);
         mainCommand.onCommand(player1, command, "", args);
         TestUtils.assertMessage(player1, expectedMessage);
-    }
-
-    @Test
-    public void playerCannotSeeOtherWorldsInfo() {
-        WorldMock world1 = mockWorldCreator.createNormalWorld();
-        WorldMock world2 = mockWorldCreator.createNormalWorld();
-        PlayerMock player = server.addPlayer();
-        String[] args = {"player", world1.getName(), player.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
-                MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
-        mockWorldCreator.makeWorldHardcore(world1);
-        TestUtils.teleportPlayer(player, world2);
-        mainCommand.onCommand(player, command, "", args);
-        TestUtils.assertMessage(player, expectedMessage);
     }
 
     @Test
@@ -113,7 +98,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
     public void playerCanGetHisInfo() {
         mockWorldCreator.createHardcoreWorld();
         PlayerMock player = server.addPlayer(); // Player will automatically join hardcore world
-        player.setOp(true); // testing doesn't allow specific permission setting
+        TestUtils.setPlayerPermissions(plugin, player, "multiversehardcore.player.self");
         Date mockJoinDate = new Date();
         String[] args = {"player"};
         String[] expectedMessages = {

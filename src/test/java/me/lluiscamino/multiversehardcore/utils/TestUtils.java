@@ -4,7 +4,9 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import me.lluiscamino.multiversehardcore.MultiverseHardcore;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.permissions.PermissionAttachment;
 import org.jetbrains.annotations.NotNull;
 
 public final class TestUtils {
@@ -68,4 +70,11 @@ public final class TestUtils {
         return (WorldMock) player.getLocation().getWorld();
     }
 
+    public static void setPlayerPermissions(@NotNull MultiverseHardcore plugin, @NotNull PlayerMock player,
+                                            @NotNull String... permissions) {
+        PermissionAttachment attachment = player.addAttachment(plugin);
+        for (String permission : permissions) {
+            attachment.setPermission(permission, true);
+        }
+    }
 }

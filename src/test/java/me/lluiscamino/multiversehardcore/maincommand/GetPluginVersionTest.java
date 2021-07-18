@@ -2,7 +2,6 @@ package me.lluiscamino.multiversehardcore.maincommand;
 
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import me.lluiscamino.multiversehardcore.commands.MainSubcommand;
 import org.bukkit.ChatColor;
 import org.junit.Test;
 import me.lluiscamino.multiversehardcore.utils.TestUtils;
@@ -13,7 +12,8 @@ public class GetPluginVersionTest extends MainCommandTest {
         String[] args = {"version"};
         PlayerMock player = server.addPlayer();
         String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
-                + ChatColor.RED + MainSubcommand.PERMISSION_ERROR + ChatColor.RESET;
+                + ChatColor.RED + "You need the following permission to run this command: "
+                + "multiversehardcore.version" + ChatColor.RESET;
         mainCommand.onCommand(player, command, "", args);
         TestUtils.assertMessage(player, expectedMessage);
     }
