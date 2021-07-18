@@ -3,9 +3,9 @@ package me.lluiscamino.multiversehardcore.maincommand;
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import me.lluiscamino.multiversehardcore.utils.TestUtils;
 import org.bukkit.ChatColor;
 import org.junit.Test;
-import me.lluiscamino.multiversehardcore.utils.TestUtils;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ public class GetWorldInfoTest extends MainCommandTest {
     @Test
     public void consoleHasToSpecifyWorldToGetPlayerInfo() {
         String[] args = {"world"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "Wrong usage: " + ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " world"
                 + ChatColor.RESET + ChatColor.GOLD + " <world>" + ChatColor.RESET + ChatColor.RESET;
         ConsoleCommandSenderMock sender = new ConsoleCommandSenderMock();
@@ -25,7 +25,7 @@ public class GetWorldInfoTest extends MainCommandTest {
     @Test
     public void worldHasToExistToGetWorldInfo() {
         String[] args = {"world", "non_existing_world"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                 "World does not exist!" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         player.setOp(true);
@@ -37,7 +37,7 @@ public class GetWorldInfoTest extends MainCommandTest {
     public void worldHasToBeHardcoreToGetWorldInfo() {
         WorldMock world = mockWorldCreator.createNormalWorld();
         String[] args = {"world", world.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                 "World " + world.getName() + " is not Hardcore" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         player.setOp(true);

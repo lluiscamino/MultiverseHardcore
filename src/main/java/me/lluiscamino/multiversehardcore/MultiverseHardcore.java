@@ -8,6 +8,7 @@ import me.lluiscamino.multiversehardcore.events.PlayerChangeOfWorld;
 import me.lluiscamino.multiversehardcore.events.PlayerDeath;
 import me.lluiscamino.multiversehardcore.events.PlayerJoin;
 import me.lluiscamino.multiversehardcore.files.HardcoreWorldsList;
+import me.lluiscamino.multiversehardcore.utils.MessageSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -53,6 +54,7 @@ public class MultiverseHardcore extends JavaPlugin {
             loadMultiverseCore();
         }
         saveDefaultConfig();
+        loadMessagesPrefix();
         loadEventListeners();
         loadCommands();
         scheduleWorldCleanUp();
@@ -64,6 +66,13 @@ public class MultiverseHardcore extends JavaPlugin {
             MVWorldManager = ((MultiverseCore) multiversePlugin).getMVWorldManager();
         } else {
             throw new RuntimeException("Multiverse-Core not found!");
+        }
+    }
+
+    private void loadMessagesPrefix() {
+        String prefix = getConfig().getString("prefix");
+        if (prefix != null) {
+            MessageSender.setPrefix(prefix);
         }
     }
 

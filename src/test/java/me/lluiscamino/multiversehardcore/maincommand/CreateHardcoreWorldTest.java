@@ -12,7 +12,7 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
     @Test
     public void playerCannotCreateHardcoreWorld() {
         String[] args = {"create", "hardcore_world"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "You need the following permission to run this command: multiversehardcore.create" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         mainCommand.onCommand(player, command, "", args);
@@ -22,7 +22,7 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
     @Test
     public void cannotCreateHardcoreWorldWithNoName() {
         String[] args = {"create"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "Wrong usage: " + ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " create"
                 + ChatColor.RED + " <world>" + ChatColor.GOLD + " <spectator_mode> <create_nether> <create_end> " +
                 "<ban_forever> <ban_length> <include_nether> <include_end> <respawn_world>"
@@ -36,7 +36,7 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
     public void cannotCreateAlreadyExistingWorld() {
         String worldName = mockWorldCreator.createNormalWorld().getName();
         String[] args = {"create", worldName};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "World " + worldName + " already exists" + ChatColor.RESET;
         PlayerMock player = TestUtils.addOP(server);
         mainCommand.onCommand(player, command, "", args);
@@ -48,9 +48,9 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
         String worldName = "hardcore_world";
         String[] args = {"create", worldName, "false", "false", "false", "true", "0", "true", "true", worldName};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.BLUE +
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.BLUE +
                         "Starting creation of world(s)..." + ChatColor.RESET,
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                         "World and spawn world cannot be equal" + ChatColor.RESET
         };
         PlayerMock player = TestUtils.addOP(server);
@@ -62,9 +62,9 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
     public void cannotMakeAnRespawnHardcoreWorldWithNonExistentRespawnWorld() {
         String[] args = {"create", "hardcore_world", "false", "false", "false", "true", "0", "true", "true", "non_existing_world"};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.BLUE +
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.BLUE +
                         "Starting creation of world(s)..." + ChatColor.RESET,
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                         "Respawn world does not exist" + ChatColor.RESET
         };
         PlayerMock player = TestUtils.addOP(server);
@@ -77,9 +77,9 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
         WorldMock respawnWorld = mockWorldCreator.createNormalWorld();
         String[] args = {"create", "hardcore_world", "false", "false", "false", "true", "0", "true", "true", respawnWorld.getName()};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.BLUE +
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.BLUE +
                         "Starting creation of world(s)..." + ChatColor.RESET,
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                         "Respawn world cannot be hardcore" + ChatColor.RESET
         };
         PlayerMock player = TestUtils.addOP(server);
@@ -92,9 +92,9 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
     public void cannotCreateAFiniteBanLengthHardcoreWorldWithANegativeBanLength() {
         String[] args = {"create", "hardcore_world", "true", "false", "false", "false", "-1", "true", "true", ""};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.BLUE +
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.BLUE +
                         "Starting creation of world(s)..." + ChatColor.RESET,
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                         "Ban length cannot be less than 0" + ChatColor.RESET
         };
         PlayerMock player = TestUtils.addOP(server);
@@ -118,8 +118,8 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
         String worldName = "hardcore_world";
         String[] args = {"create", worldName};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.BLUE + "Starting creation of world(s)..." + ChatColor.RESET,
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.GREEN + "World " + ChatColor.DARK_GREEN + worldName + ChatColor.GREEN + " created!" + ChatColor.RESET,
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.BLUE + "Starting creation of world(s)..." + ChatColor.RESET,
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.GREEN + "World " + ChatColor.DARK_GREEN + worldName + ChatColor.GREEN + " created!" + ChatColor.RESET,
         };
         ConsoleCommandSenderMock sender = new ConsoleCommandSenderMock();
         mainCommand.onCommand(sender, command, "", args);
@@ -131,8 +131,8 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
         String worldName = "hardcore_world";
         String[] args = {"create", worldName};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.BLUE + "Starting creation of world(s)..." + ChatColor.RESET,
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.GREEN + "World " + ChatColor.DARK_GREEN + worldName + ChatColor.GREEN + " created!" + ChatColor.RESET,
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.BLUE + "Starting creation of world(s)..." + ChatColor.RESET,
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.GREEN + "World " + ChatColor.DARK_GREEN + worldName + ChatColor.GREEN + " created!" + ChatColor.RESET,
         };
         PlayerMock player = TestUtils.addOP(server);
         mainCommand.onCommand(player, command, "", args);
@@ -144,8 +144,8 @@ public class CreateHardcoreWorldTest extends MainCommandTest {
         String worldName = "hardcore_world";
         String[] args = {"create", worldName, "true", "true", "true", "true", "0", "true", "true", "null"};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.BLUE + "Starting creation of world(s)..." + ChatColor.RESET,
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.GREEN + "World " + ChatColor.DARK_GREEN + worldName + ChatColor.GREEN + " created!" + ChatColor.RESET,
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.BLUE + "Starting creation of world(s)..." + ChatColor.RESET,
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.GREEN + "World " + ChatColor.DARK_GREEN + worldName + ChatColor.GREEN + " created!" + ChatColor.RESET,
         };
         PlayerMock player = TestUtils.addOP(server);
         mainCommand.onCommand(player, command, "", args);

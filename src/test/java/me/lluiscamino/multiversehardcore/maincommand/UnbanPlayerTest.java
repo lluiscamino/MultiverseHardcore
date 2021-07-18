@@ -13,7 +13,7 @@ public class UnbanPlayerTest extends MainCommandTest {
     public void playerCannotUnban() {
         String[] args = {"unban"};
         PlayerMock player = server.addPlayer();
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "You need the following permission to run this command: multiversehardcore.unban"
                 + ChatColor.RESET;
         mainCommand.onCommand(player, command, "", args);
@@ -24,7 +24,7 @@ public class UnbanPlayerTest extends MainCommandTest {
     public void OPHasToSpecifyWorld() {
         String[] args = {"unban"};
         PlayerMock op = TestUtils.addOP(server);
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "Wrong usage: " + ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " unban" +
                 ChatColor.RESET + ChatColor.RED + " <world> <player>" + ChatColor.RESET + ChatColor.RESET;
         mainCommand.onCommand(op, command, "", args);
@@ -35,7 +35,7 @@ public class UnbanPlayerTest extends MainCommandTest {
     public void OPHasToSpecifyPlayer() {
         String[] args = {"unban", "world"};
         PlayerMock op = TestUtils.addOP(server);
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "Wrong usage: " + ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " unban" +
                 ChatColor.RESET + ChatColor.RED + " <world> <player>" + ChatColor.RESET + ChatColor.RESET;
         mainCommand.onCommand(op, command, "", args);
@@ -46,7 +46,7 @@ public class UnbanPlayerTest extends MainCommandTest {
     public void OPCannotUnbanInNonExistentWorld() {
         PlayerMock op = TestUtils.addOP(server);
         String[] args = {"unban", "non_existent_world", op.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "World does not exist!" + ChatColor.RESET;
         mainCommand.onCommand(op, command, "", args);
         TestUtils.assertMessage(op, expectedMessage);
@@ -57,7 +57,7 @@ public class UnbanPlayerTest extends MainCommandTest {
         PlayerMock op = TestUtils.addOP(server);
         WorldMock world = mockWorldCreator.createNormalWorld();
         String[] args = {"unban", world.getName(), op.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "World " + world.getName() + " is not Hardcore" + ChatColor.RESET;
         mainCommand.onCommand(op, command, "", args);
         TestUtils.assertMessage(op, expectedMessage);
@@ -68,7 +68,7 @@ public class UnbanPlayerTest extends MainCommandTest {
         PlayerMock op = TestUtils.addOP(server);
         WorldMock world = mockWorldCreator.createNormalWorld();
         String[] args = {"unban", world.getName(), "non_existent_player"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "Player does not exist!" + ChatColor.RESET;
         mainCommand.onCommand(op, command, "", args);
         TestUtils.assertMessage(op, expectedMessage);
@@ -80,8 +80,8 @@ public class UnbanPlayerTest extends MainCommandTest {
         PlayerMock op = TestUtils.addOP(server);
         String[] args = {"unban", world.getName(), op.getName()};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " You are entering a HARDCORE world, be careful!",
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + "You are entering a HARDCORE world, be careful!",
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED
                         + "Player is not deathbanned!" + ChatColor.RESET
         };
         mainCommand.onCommand(op, command, "", args);
@@ -93,7 +93,7 @@ public class UnbanPlayerTest extends MainCommandTest {
         PlayerMock op = TestUtils.addOP(server);
         WorldMock world = mockWorldCreator.createHardcoreWorld();
         String[] args = {"unban", world.getName(), op.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "Player " + op.getName() + " has not participated in the world " + world.getName()
                 + ChatColor.RESET;
         mainCommand.onCommand(op, command, "", args);
@@ -109,7 +109,7 @@ public class UnbanPlayerTest extends MainCommandTest {
         TestUtils.fireJoinEvent(server, player);
         TestUtils.killPlayer(server, player);
         String[] args = {"unban", world.getName(), player.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.GREEN
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.GREEN
                 + "Player " + ChatColor.DARK_GREEN + player.getName() + ChatColor.GREEN + " has been unbanned!"
                 + ChatColor.RESET;
         mainCommand.onCommand(op, command, "", args);

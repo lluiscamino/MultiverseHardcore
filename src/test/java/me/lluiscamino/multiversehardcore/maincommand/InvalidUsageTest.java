@@ -40,7 +40,7 @@ public class InvalidUsageTest extends MainCommandTest {
 
     @Test
     public void getErrorMessageWhenInvalidSubCommand() {
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED + "Invalid subcommand <invalid-subcommand>!" + ChatColor.RESET;
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED + "Invalid subcommand <invalid-subcommand>!" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         mainCommand.onCommand(player, command, "", new String[]{"invalid-subcommand"});
         TestUtils.assertMessage(player, expectedMessage);

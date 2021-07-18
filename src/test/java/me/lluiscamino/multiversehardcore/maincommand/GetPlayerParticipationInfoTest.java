@@ -14,7 +14,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
     @Test
     public void consoleHasToSpecifyWorldToGetPlayerInfo() {
         String[] args = {"player"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "Wrong usage: " + ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " player" +
                 ChatColor.RESET + ChatColor.GOLD + " <world> <player>" + ChatColor.RESET + ChatColor.RESET;
         ConsoleCommandSenderMock sender = new ConsoleCommandSenderMock();
@@ -25,7 +25,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
     @Test
     public void consoleHasToSpecifyPlayerToGetPlayerInfo() {
         String[] args = {"player", "world"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " "
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET
                 + ChatColor.RED + "Wrong usage: " + ChatColor.BLUE + "/mvhc" + ChatColor.GREEN + " player" +
                 ChatColor.RESET + ChatColor.GOLD + " <world> <player>" + ChatColor.RESET + ChatColor.RESET;
         ConsoleCommandSenderMock sender = new ConsoleCommandSenderMock();
@@ -36,7 +36,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
     @Test
     public void worldHasToExistToGetPlayerInfo() {
         String[] args = {"player", "non_existing_world"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                 "World does not exist!" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         player.setOp(true);
@@ -48,7 +48,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
     public void worldHasToBeHardcoreToGetPlayerInfo() {
         WorldMock world = mockWorldCreator.createNormalWorld();
         String[] args = {"player", world.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                 "World " + world.getName() + " is not Hardcore" + ChatColor.RESET;
         PlayerMock player = server.addPlayer();
         player.setOp(true);
@@ -60,7 +60,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
     public void playerHasToExistToGetPlayerInfo() {
         WorldMock world = mockWorldCreator.createNormalWorld();
         String[] args = {"player", world.getName(), "non_existing_player"};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                 "Player does not exist!" + ChatColor.RESET;
         PlayerMock op = TestUtils.addOP(server);
         mockWorldCreator.makeWorldHardcore(world);
@@ -75,7 +75,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
         PlayerMock player1 = server.addPlayer();
         PlayerMock player2 = server.addPlayer();
         String[] args = {"player", world.getName(), player2.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                 "You need the following permission to run this command: multiversehardcore.player.others" + ChatColor.RESET;
         mockWorldCreator.makeWorldHardcore(world);
         mainCommand.onCommand(player1, command, "", args);
@@ -87,7 +87,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
         WorldMock world = mockWorldCreator.createNormalWorld();
         PlayerMock player = TestUtils.addOP(server);
         String[] args = {"player", world.getName(), player.getName()};
-        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " " + ChatColor.RED +
+        String expectedMessage = ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + ChatColor.RED +
                 "Player " + player.getName() + " has not participated in the world " + world.getName() + ChatColor.RESET;
         mockWorldCreator.makeWorldHardcore(world);
         mainCommand.onCommand(player, command, "", args);
@@ -102,7 +102,7 @@ public class GetPlayerParticipationInfoTest extends MainCommandTest {
         Date mockJoinDate = new Date();
         String[] args = {"player"};
         String[] expectedMessages = {
-                ChatColor.DARK_RED + "[MV-HARDCORE]" + ChatColor.RESET + " You are entering a HARDCORE world, be careful!",
+                ChatColor.DARK_RED + "[MV-HARDCORE] " + ChatColor.RESET + "You are entering a HARDCORE world, be careful!",
                 ChatColor.BLUE + player.getName() + ChatColor.RESET + " info:\n" + ChatColor.RESET +
                         ChatColor.BOLD + "- Join Date: " + ChatColor.RESET + mockJoinDate + "\n" +
                         ChatColor.BOLD + "- Death banned: " + ChatColor.RESET + "NO\n" +
